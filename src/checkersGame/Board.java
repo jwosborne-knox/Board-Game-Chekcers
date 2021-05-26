@@ -150,20 +150,83 @@ public class Board extends JFrame{
             }
         });
         
-        // operation mode menu
+        // move mode menu
         // ###TODO make move menu out of operation menu
-        JMenu operationModeMenu=new JMenu("Operation");
+        JMenu operationModeMenu=new JMenu("Move");
         menuBar.add(operationModeMenu);
         
-        // move option
-        addToMenu(operationModeMenu, "Move", new ActionListener() {
+        // move options
+        addToMenu(operationModeMenu, "Up Left", new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String text=e.getActionCommand();
-                // currently this just prints
-                System.out.println(text);
+            	int[] temp = scene.getSelectedCoordinates();
+        		if(temp[0]==0||temp[1]==0)
+        			return;
+        		if(scene.checkBorder(temp[0]-1, temp[1]-1)) {
+        			if(scene.checkBorder(temp[0]-2, temp[1]-2))
+        				return;
+        			if(temp[0]==1||temp[1]==1)
+            			return;
+        			scene.removeChecker(scene.getCheckerAtCoordinates(temp[0]-1, temp[1]-1));
+        			scene.moveSelected(-2, -2, length);
+        		}else
+        			scene.moveSelected(-1, -1, length);
+        		repaint();
             }
         });
         
+        addToMenu(operationModeMenu, "Up Right", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int[] temp = scene.getSelectedCoordinates();
+        		if(temp[0]==7||temp[1]==0)
+        			return;
+        		if(scene.checkBorder(temp[0]+1, temp[1]-1)) {
+        			if(scene.checkBorder(temp[0]+2, temp[1]-2))
+        				return;
+        			if(temp[0]==6||temp[1]==1)
+            			return;
+        			scene.removeChecker(scene.getCheckerAtCoordinates(temp[0]+1, temp[1]-1));
+        			scene.moveSelected(2, -2, length);
+        		}else
+        			scene.moveSelected(1, -1, length);
+        		repaint();
+            }
+        });
+        
+        addToMenu(operationModeMenu, "Down Left", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int[] temp = scene.getSelectedCoordinates();
+        		if(temp[0]==0||temp[1]==7)
+        			return;
+        		if(scene.checkBorder(temp[0]-1, temp[1]+1)) {
+        			if(scene.checkBorder(temp[0]-2, temp[1]+2))
+        				return;
+        			if(temp[0]==1||temp[1]==6)
+            			return;
+        			scene.removeChecker(scene.getCheckerAtCoordinates(temp[0]-1, temp[1]+1));
+        			scene.moveSelected(-2, 2, length);
+        		}else
+        			scene.moveSelected(-1, 1, length);
+        		repaint();
+            }
+        });
+        
+        addToMenu(operationModeMenu, "Down Right", new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int[] temp = scene.getSelectedCoordinates();
+        		if(temp[0]==7||temp[1]==7)
+        			return;
+        		if(scene.checkBorder(temp[0]+1, temp[1]+1)) {
+        			if(scene.checkBorder(temp[0]+2, temp[1]+2))
+        				return;
+        			if(temp[0]==6||temp[1]==6)
+            			return;
+        			scene.removeChecker(scene.getCheckerAtCoordinates(temp[0]+1, temp[1]+1));
+        			scene.moveSelected(2, 2, length);
+        		}else
+        			scene.moveSelected(1, 1, length);
+        		repaint();
+            }
+        });
 
         // set the menu bar for this frame
         this.setJMenuBar(menuBar);
